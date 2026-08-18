@@ -4,10 +4,14 @@ import 'package:audio_service/audio_service.dart';
 import 'services/audio_handler.dart';
 import 'screens/home_screen.dart';
 import 'theme/app_theme.dart';
+import 'models/station.dart';
 
 void main() async {
   // Ensure Flutter engine bindings are initialized prior to loading storage
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load remote station list config dynamically at startup in background
+  RadioStation.loadStations();
 
   // Initialize background audio handler
   audioHandler = await AudioService.init(
@@ -19,6 +23,7 @@ void main() async {
       androidShowNotificationBadge: true,
     ),
   );
+
 
   // Constrain system overlays to dark theme and fix orientation
   SystemChrome.setSystemUIOverlayStyle(

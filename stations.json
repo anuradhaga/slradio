@@ -1,0 +1,212 @@
+[
+  {
+    "id": "hiru_fm",
+    "name": "Hiru FM",
+    "streamUrl": "https://radio.lotustechnologieslk.net:2020/stream/hirufmgarden",
+    "frequency": "96.1 MHz",
+    "primaryColor": "#D32F2F",
+    "secondaryColor": "#FF5722",
+    "description": "Sri Lanka's Number One Sinhala Radio Channel",
+    "logoUrl": "https://www.gavixapps.com/radio/hiru-fm.png"
+  },
+  {
+    "id": "fm_derana",
+    "name": "FM Derana",
+    "streamUrl": "https://cp12.serverse.com/proxy/fmderana/stream",
+    "frequency": "92.2 MHz",
+    "primaryColor": "#FF8F00",
+    "secondaryColor": "#FFC107",
+    "description": "Lankeya Sith Neth Niwana Derana",
+    "logoUrl": "https://www.gavixapps.com/radio/fm-derana.png"
+  },
+  {
+    "id": "neth_fm",
+    "name": "Neth FM",
+    "streamUrl": "https://cp11.serverse.com/proxy/nethfm/stream",
+    "frequency": "98.9 MHz",
+    "primaryColor": "#0D47A1",
+    "secondaryColor": "#1976D2",
+    "description": "The Radio for All Sri Lankans",
+    "logoUrl": "https://www.gavixapps.com/radio/neth-fm.png"
+  },
+  {
+    "id": "siyatha_fm",
+    "name": "Siyatha FM",
+    "streamUrl": "https://srv01.onlineradio.voaplus.com/siyathafm",
+    "frequency": "98.2 MHz",
+    "primaryColor": "#6A1B9A",
+    "secondaryColor": "#AB47BC",
+    "description": "Vibrant Music and Hits All Day Long",
+    "logoUrl": "https://www.gavixapps.com/radio/siyatha-fm.png"
+  },
+  {
+    "id": "lakhanda_fm",
+    "name": "Lakhanda FM",
+    "streamUrl": "https://cp12.serverse.com/proxy/itnfm?mp=/stream",
+    "frequency": "93.7 MHz",
+    "primaryColor": "#2E7D32",
+    "secondaryColor": "#4CAF50",
+    "description": "The Golden Heartbeat of the Nation",
+    "logoUrl": "https://www.gavixapps.com/radio/lakhanda-fm.png"
+  },
+  {
+    "id": "gold_fm",
+    "name": "Gold FM",
+    "streamUrl": "https://radio.lotustechnologieslk.net:8000/",
+    "frequency": "93.0 MHz",
+    "primaryColor": "#FFD700",
+    "secondaryColor": "#8B6508",
+    "description": "Sri Lanka's Golden Classics English Station",
+    "logoUrl": "https://www.gavixapps.com/radio/gold-fm.png"
+  },
+  {
+    "id": "kiss_fm",
+    "name": "Kiss FM",
+    "streamUrl": "https://srv01.onlineradio.voaplus.com/kissfm",
+    "frequency": "96.9 MHz",
+    "primaryColor": "#E91E63",
+    "secondaryColor": "#1A1A1A",
+    "description": "The Sound of Your Future",
+    "logoUrl": "https://www.gavixapps.com/radio/kiss-fm.png"
+  },
+  {
+    "id": "light_fm",
+    "name": "Light FM",
+    "streamUrl": "https://srv01.onlineradio.voaplus.com/lite878",
+    "frequency": "87.8 MHz",
+    "primaryColor": "#00BFFF",
+    "secondaryColor": "#1E3C72",
+    "description": "Lite 87 - Easy Listening Favorites",
+    "logoUrl": "https://www.gavixapps.com/radio/light-fm.png"
+  },
+  {
+    "id": "real_radio",
+    "name": "Real Radio",
+    "streamUrl": "https://srv01.onlineradio.voaplus.com/realfm",
+    "frequency": "97.1 MHz",
+    "primaryColor": "#008080",
+    "secondaryColor": "#0F2027",
+    "description": "Real Radio - real music, real talk",
+    "logoUrl": "https://www.gavixapps.com/radio/real-radio.png"
+  },
+  {
+    "id": "rhythm_fm",
+    "name": "Rhythm FM",
+    "streamUrl": "https://srv01.onlineradio.voaplus.com/rhythmfm",
+    "frequency": "95.6 MHz",
+    "primaryColor": "#F27121",
+    "secondaryColor": "#E94057",
+    "description": "Feel the Rhythm of Your Life",
+    "logoUrl": "https://www.gavixapps.com/radio/rhythm-fm.png"
+  },
+  {
+    "id": "shaa_fm",
+    "name": "Shaa FM",
+    "streamUrl": "https://listen.radioking.com/radio/384487/stream/435781",
+    "frequency": "91.1 MHz",
+    "primaryColor": "#FF2525",
+    "secondaryColor": "#FF8F00",
+    "description": "Sri Lanka's Youth Trend Broadcast",
+    "logoUrl": "https://www.gavixapps.com/radio/shaa-fm.png"
+  },
+  {
+    "id": "sitha_fm",
+    "name": "Sitha FM",
+    "streamUrl": "https://shaincast.caster.fm:48148/listen.mp3",
+    "frequency": "88.8 MHz",
+    "primaryColor": "#7B1FA2",
+    "secondaryColor": "#311B92",
+    "description": "Sweet Sounds of Sinhala Broadcasting",
+    "logoUrl": "https://www.gavixapps.com/radio/sitha-fm.png"
+  },
+  {
+    "id": "sun_fm",
+    "name": "Sun FM",
+    "streamUrl": "https://radio.lotustechnologieslk.net:2020/stream/sunfmgarden",
+    "frequency": "98.9 MHz",
+    "primaryColor": "#F12711",
+    "secondaryColor": "#F5AF19",
+    "description": "Sri Lanka's Ultimate English Hit Music Station",
+    "logoUrl": "https://www.gavixapps.com/radio/sun-fm.png"
+  },
+  {
+    "id": "v_fm",
+    "name": "V FM",
+    "streamUrl": "https://dc1.serverse.com/proxy/fmlanka/stream",
+    "frequency": "94.3 MHz",
+    "primaryColor": "#00C9FF",
+    "secondaryColor": "#92FE9D",
+    "description": "V FM - The Voice of the People",
+    "logoUrl": "https://www.gavixapps.com/radio/v-fm.png"
+  },
+  {
+    "id": "yes_fm",
+    "name": "Yes FM",
+    "streamUrl": "http://live.trusl.com:1150/",
+    "frequency": "101.0 MHz",
+    "primaryColor": "#E91E63",
+    "secondaryColor": "#1E3C72",
+    "description": "Sri Lanka's hit music and youth English radio station",
+    "logoUrl": "https://www.gavixapps.com/radio/yes-fm.png"
+  },
+  {
+    "id": "sirasa_fm",
+    "name": "Sirasa FM",
+    "streamUrl": "http://live.trusl.com:1170/;",
+    "frequency": "106.5 MHz",
+    "primaryColor": "#E53935",
+    "secondaryColor": "#FFD54F",
+    "description": "Sri Lanka's popular Sinhala radio channel",
+    "logoUrl": "https://www.gavixapps.com/radio/sirasa-fm.png"
+  },
+  {
+    "id": "shakthi_fm",
+    "name": "Shakthi FM",
+    "streamUrl": "http://live.trusl.com:1160/;",
+    "frequency": "102.7 MHz",
+    "primaryColor": "#1565C0",
+    "secondaryColor": "#EF6C00",
+    "description": "The premier Tamil radio station in Sri Lanka",
+    "logoUrl": "https://www.gavixapps.com/radio/shakthi-fm.png"
+  },
+  {
+    "id": "y_fm",
+    "name": "Y FM",
+    "streamUrl": "http://live.trusl.com:1180/;",
+    "frequency": "92.7 MHz",
+    "primaryColor": "#8E24AA",
+    "secondaryColor": "#00E5FF",
+    "description": "Sri Lanka's trendsetting Sinhala youth station",
+    "logoUrl": "https://www.gavixapps.com/radio/y-fm.png"
+  },
+  {
+    "id": "tnl_radio",
+    "name": "TNL Radio",
+    "streamUrl": "http://live.tnlrn.com:8010/live.mp3",
+    "frequency": "101.8 MHz",
+    "primaryColor": "#212121",
+    "secondaryColor": "#B0BEC5",
+    "description": "Sri Lanka's home of rock and alternative music",
+    "logoUrl": "https://www.gavixapps.com/radio/tnl-radio.png"
+  },
+  {
+    "id": "sooriyan_fm",
+    "name": "Sooriyan FM",
+    "streamUrl": "http://sooriyanfm.asiabroadcasting.stream:7071/;",
+    "frequency": "103.4 MHz",
+    "primaryColor": "#E65100",
+    "secondaryColor": "#FFFFD54F",
+    "description": "Leading Tamil broadcasting network in Sri Lanka",
+    "logoUrl": "https://www.gavixapps.com/radio/sooriyan-fm.png"
+  },
+  {
+    "id": "varnam_fm",
+    "name": "Varnam FM",
+    "streamUrl": "http://s3.voscast.com:8402/",
+    "frequency": "90.4 MHz",
+    "primaryColor": "#00E676",
+    "secondaryColor": "#00B0FF",
+    "description": "Sri Lanka's vibrant Tamil music station",
+    "logoUrl": "https://www.gavixapps.com/radio/varnam-fm.png"
+  }
+]

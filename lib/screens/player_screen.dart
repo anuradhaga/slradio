@@ -109,7 +109,7 @@ class _PlayerScreenState extends State<PlayerScreen> with SingleTickerProviderSt
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: isLandscape ? 16.0 : 24.0,
-                    vertical: isLandscape ? 8.0 : 16.0,
+                    vertical: isLandscape ? 4.0 : 16.0,
                   ),
                   child: isLandscape
                       ? Row(
@@ -186,7 +186,7 @@ class _PlayerScreenState extends State<PlayerScreen> with SingleTickerProviderSt
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 4),
                                   // Station Name
                                   Text(
                                     widget.station.name,
@@ -199,7 +199,7 @@ class _PlayerScreenState extends State<PlayerScreen> with SingleTickerProviderSt
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  const SizedBox(height: 2),
+                                  const SizedBox(height: 1),
                                   Text(
                                     widget.station.frequency,
                                     style: TextStyle(
@@ -208,13 +208,13 @@ class _PlayerScreenState extends State<PlayerScreen> with SingleTickerProviderSt
                                       color: activeColor.withOpacity(0.9),
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 4),
                                   // Stream Status & Metadata
                                   _buildMetadataStream(isCurrentStation, isStationPlaying, isStationBuffering, activeColor),
-                                  const SizedBox(height: 12),
+                                  const SizedBox(height: 6),
                                   // Control Buttons
                                   _buildControlButtons(isCurrentStation, isStationPlaying, isStationBuffering, activeColor, secondaryColor),
-                                  const SizedBox(height: 12),
+                                  const SizedBox(height: 6),
                                   // Volume Slider
                                   _buildVolumeSlider(activeColor),
                                 ],
@@ -629,16 +629,6 @@ class _PlayerScreenState extends State<PlayerScreen> with SingleTickerProviderSt
         ),
       ),
     );
-
-    if (station.logoAsset != null) {
-      return Image.asset(
-        station.logoAsset!,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildNetworkLogo(fallbackText);
-        },
-      );
-    }
 
     return _buildNetworkLogo(fallbackText);
   }

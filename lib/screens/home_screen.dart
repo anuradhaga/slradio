@@ -8,6 +8,8 @@ import '../theme/app_theme.dart';
 import '../widgets/station_card.dart';
 import '../widgets/mini_player.dart';
 import '../widgets/visualizer.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,11 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
   
   String _searchQuery = '';
   String _selectedCategory = 'All'; // 'All' or 'Favorites'
+  String _appVersion = '';
   final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _loadVersionInfo();
     _favoritesService.initialize().then((_) {
       if (_favoritesService.favorites.value.isNotEmpty) {
         setState(() {
@@ -35,6 +39,26 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
     _audioService.initialize();
+  }
+
+  Future<void> _loadVersionInfo() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      setState(() {
+        _appVersion = 'v${packageInfo.version}+${packageInfo.buildNumber}';
+      });
+    } catch (_) {}
+  }
+
+  Future<void> _launchBuyMeACoffee() async {
+    final Uri url = Uri.parse('https://buymeacoffee.com/slradio');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open Buy Me a Coffee link')),
+        );
+      }
+    }
   }
 
   @override
@@ -129,49 +153,110 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHeader(bool isLandscape) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        isLandscape ? 16.0 : 24.0,
+        isLandscape ? 16.0 : 20.0,
         isLandscape ? 8.0 : 16.0,
-        isLandscape ? 16.0 : 24.0,
+        isLandscape ? 16.0 : 20.0,
         isLandscape ? 4.0 : 8.0,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _getGreeting(),
+                  style: TextStyle(
+                    fontSize: isLandscape ? 11 : 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        "Sri Lanka Radio",
+                        style: TextStyle(
+                          fontSize: isLandscape ? 20 : 22,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                          letterSpacing: 0.5,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (_appVersion.isNotEmpty) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        _appVersion,
+                        style: TextStyle(
+                          fontSize: isLandscape ? 10 : 11,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.textSecondary.withOpacity(0.5),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Row(
             children: [
-              Text(
-                _getGreeting(),
-                style: TextStyle(
-                  fontSize: isLandscape ? 11 : 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textSecondary,
+              GestureDetector(
+                onTap: _launchBuyMeACoffee,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: AppTheme.glassDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ).copyWith(
+                    color: Colors.orangeAccent.withOpacity(0.12),
+                    border: Border.all(
+                      color: Colors.orangeAccent.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.coffee_rounded,
+                        color: Colors.orangeAccent,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        "Support",
+                        style: TextStyle(
+                          color: Colors.orangeAccent,
+                          fontSize: isLandscape ? 11 : 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 2),
-              Text(
-                "Sri Lanka Radio",
-                style: TextStyle(
-                  fontSize: isLandscape ? 20 : 26,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                  letterSpacing: 0.5,
+              const SizedBox(width: 10),
+              Container(
+                width: isLandscape ? 36 : 44,
+                height: isLandscape ? 36 : 44,
+                decoration: AppTheme.glassDecoration(
+                  borderRadius: BorderRadius.circular(isLandscape ? 10 : 14),
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.radio_rounded,
+                  color: AppTheme.accentGlow,
+                  size: isLandscape ? 20 : 24,
                 ),
               ),
             ],
-          ),
-          Container(
-            width: isLandscape ? 36 : 44,
-            height: isLandscape ? 36 : 44,
-            decoration: AppTheme.glassDecoration(
-              borderRadius: BorderRadius.circular(isLandscape ? 10 : 14),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.radio_rounded,
-              color: AppTheme.accentGlow,
-              size: isLandscape ? 20 : 24,
-            ),
           )
         ],
       ),
@@ -236,146 +321,245 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildStationsList(bool isLandscape) {
-    return ValueListenableBuilder<List<String>>(
-      valueListenable: _favoritesService.favorites,
-      builder: (context, favoritesList, child) {
-        // Filter stations list based on search query and category
-        final List<RadioStation> displayedStations = RadioStation.stations.where((station) {
-          final matchesSearch = station.name.toLowerCase().contains(_searchQuery) ||
-              station.frequency.toLowerCase().contains(_searchQuery) ||
-              station.description.toLowerCase().contains(_searchQuery);
-              
-          if (_selectedCategory == 'Favorites') {
-            return matchesSearch && favoritesList.contains(station.id);
-          }
-          return matchesSearch;
-        }).toList();
+    return ValueListenableBuilder<bool>(
+      valueListenable: RadioStation.loadingNotifier,
+      builder: (context, isLoading, child) {
+        return ValueListenableBuilder<String?>(
+          valueListenable: RadioStation.errorNotifier,
+          builder: (context, errorMessage, child) {
+            return ValueListenableBuilder<List<RadioStation>>(
+              valueListenable: RadioStation.stationsNotifier,
+              builder: (context, stationsList, child) {
+                if (isLoading && stationsList.isEmpty) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.accent),
+                    ),
+                  );
+                }
 
-        // Sort stations ascending by name (alphabetically)
-        displayedStations.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
-        return CustomScrollView(
-          slivers: [
-            // Header for grid section
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  isLandscape ? 16.0 : 24.0,
-                  isLandscape ? 8.0 : 16.0,
-                  isLandscape ? 16.0 : 24.0,
-                  isLandscape ? 6.0 : 12.0,
-                ),
-                child: Text(
-                  _selectedCategory == 'Favorites' 
-                      ? "MY FAVORITES (${displayedStations.length})" 
-                      : "ALL ONLINE STATIONS (${displayedStations.length})",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.textSecondary.withOpacity(0.8),
-                    letterSpacing: 1.5,
-                  ),
-                ),
-              ),
-            ),
-
-            // Stations lists grid
-            if (displayedStations.isEmpty)
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        _selectedCategory == 'Favorites'
-                            ? Icons.favorite_border_rounded
-                            : Icons.radio_rounded,
-                        size: isLandscape ? 48 : 64,
-                        color: AppTheme.textMuted,
+                if (errorMessage != null && stationsList.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.cloud_off_rounded,
+                            color: AppTheme.textSecondary,
+                            size: 64,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            errorMessage,
+                            style: const TextStyle(
+                              color: AppTheme.textSecondary,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton.icon(
+                            onPressed: () => RadioStation.loadStations(),
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: const Text("Retry Connection"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.accent,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        _selectedCategory == 'Favorites'
-                            ? "No favorites added yet"
-                            : "No matching stations found",
-                        style: TextStyle(
-                          fontSize: isLandscape ? 14 : 16,
-                          color: AppTheme.textSecondary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        _selectedCategory == 'Favorites'
-                            ? "Tap the heart on any station card to save here"
-                            : "Try searching with a different name or frequency",
-                        style: TextStyle(
-                          fontSize: isLandscape ? 11 : 13,
+                    ),
+                  );
+                }
+
+                if (stationsList.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.radio_rounded,
+                          size: 64,
                           color: AppTheme.textMuted,
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            else
-              SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: isLandscape ? 16.0 : 24.0),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final station = displayedStations[index];
-                      
-                      return ValueListenableBuilder<RadioStation?>(
-                        valueListenable: _audioService.currentStation,
-                        builder: (context, activeStation, child) {
-                          return StreamBuilder<PlayerState>(
-                            stream: _audioService.playerStateStream,
-                            builder: (context, snapshot) {
-                              final playerState = snapshot.data;
-                              final isPlaying = playerState?.playing ?? false;
-                              final processingState = playerState?.processingState ?? ProcessingState.idle;
-                              
-                              final isActive = activeStation?.id == station.id;
-                              final isStationPlaying = isActive && isPlaying;
-                              final isStationBuffering = isActive && 
-                                  (processingState == ProcessingState.buffering || 
-                                   processingState == ProcessingState.loading);
+                        const SizedBox(height: 12),
+                        const Text(
+                          "No stations available",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppTheme.textSecondary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton.icon(
+                          onPressed: () => RadioStation.loadStations(),
+                          icon: const Icon(Icons.refresh_rounded),
+                          label: const Text("Reload"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.accent,
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
 
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 12.0),
-                                child: StationCard(
-                                  station: station,
-                                  isActive: isActive,
-                                  isPlaying: isStationPlaying,
-                                  isBuffering: isStationBuffering,
-                                  isFavorite: favoritesList.contains(station.id),
-                                  onTap: () {
-                                    if (isActive) {
-                                      _audioService.togglePlay();
-                                    } else {
-                                      _audioService.playStation(station);
-                                    }
-                                  },
-                                  onFavoriteToggle: () => _favoritesService.toggleFavorite(station.id),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                    childCount: displayedStations.length,
-                  ),
-                ),
-              ),
-            
-            // Bottom offset padding space so elements are not hidden by the floating player
-            SliverToBoxAdapter(
-              child: SizedBox(height: isLandscape ? 24 : 100),
-            ),
-          ],
+                // Render station list once loaded
+                return ValueListenableBuilder<List<String>>(
+                  valueListenable: _favoritesService.favorites,
+                  builder: (context, favoritesList, child) {
+                    // Filter stations list based on search query and category
+                    final List<RadioStation> displayedStations = stationsList.where((station) {
+                      final matchesSearch = station.name.toLowerCase().contains(_searchQuery) ||
+                          station.frequency.toLowerCase().contains(_searchQuery) ||
+                          station.description.toLowerCase().contains(_searchQuery);
+                          
+                      if (_selectedCategory == 'Favorites') {
+                        return matchesSearch && favoritesList.contains(station.id);
+                      }
+                      return matchesSearch;
+                    }).toList();
+
+                    // Sort stations ascending by name (alphabetically)
+                    displayedStations.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+                    return CustomScrollView(
+                      slivers: [
+                        // Header for grid section
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              isLandscape ? 16.0 : 24.0,
+                              isLandscape ? 8.0 : 16.0,
+                              isLandscape ? 16.0 : 24.0,
+                              isLandscape ? 6.0 : 12.0,
+                            ),
+                            child: Text(
+                              _selectedCategory == 'Favorites' 
+                                  ? "MY FAVORITES (${displayedStations.length})" 
+                                  : "ALL ONLINE STATIONS (${displayedStations.length})",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppTheme.textSecondary.withOpacity(0.8),
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Stations lists grid
+                        if (displayedStations.isEmpty)
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    _selectedCategory == 'Favorites'
+                                        ? Icons.favorite_border_rounded
+                                        : Icons.radio_rounded,
+                                    size: isLandscape ? 48 : 64,
+                                    color: AppTheme.textMuted,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    _selectedCategory == 'Favorites'
+                                        ? "No favorites added yet"
+                                        : "No matching stations found",
+                                    style: TextStyle(
+                                      fontSize: isLandscape ? 14 : 16,
+                                      color: AppTheme.textSecondary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    _selectedCategory == 'Favorites'
+                                        ? "Tap the heart on any station card to save here"
+                                        : "Try searching with a different name or frequency",
+                                    style: TextStyle(
+                                      fontSize: isLandscape ? 11 : 13,
+                                      color: AppTheme.textMuted,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        else
+                          SliverPadding(
+                            padding: EdgeInsets.symmetric(horizontal: isLandscape ? 16.0 : 24.0),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  final station = displayedStations[index];
+                                  
+                                  return ValueListenableBuilder<RadioStation?>(
+                                    valueListenable: _audioService.currentStation,
+                                    builder: (context, activeStation, child) {
+                                      return StreamBuilder<PlayerState>(
+                                        stream: _audioService.playerStateStream,
+                                        builder: (context, snapshot) {
+                                          final playerState = snapshot.data;
+                                          final isPlaying = playerState?.playing ?? false;
+                                          final processingState = playerState?.processingState ?? ProcessingState.idle;
+                                          
+                                          final isActive = activeStation?.id == station.id;
+                                          final isStationPlaying = isActive && isPlaying;
+                                          final isStationBuffering = isActive && 
+                                              (processingState == ProcessingState.buffering || 
+                                               processingState == ProcessingState.loading);
+
+                                          return Padding(
+                                            padding: const EdgeInsets.only(bottom: 12.0),
+                                            child: StationCard(
+                                              station: station,
+                                              isActive: isActive,
+                                              isPlaying: isStationPlaying,
+                                              isBuffering: isStationBuffering,
+                                              isFavorite: favoritesList.contains(station.id),
+                                              onTap: () {
+                                                if (isActive) {
+                                                  _audioService.togglePlay();
+                                                } else {
+                                                  _audioService.playStation(station);
+                                                }
+                                              },
+                                              onFavoriteToggle: () => _favoritesService.toggleFavorite(station.id),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                                childCount: displayedStations.length,
+                              ),
+                            ),
+                          ),
+                        
+                        // Bottom offset padding space so elements are not hidden by the floating player
+                        SliverToBoxAdapter(
+                          child: SizedBox(height: isLandscape ? 24 : 100),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
+          },
         );
       },
     );
@@ -742,15 +926,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
 
-    if (station.logoAsset != null) {
-      return Image.asset(
-        station.logoAsset!,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildRightPanelNetworkLogo(station, fallbackText);
-        },
-      );
-    }
     return _buildRightPanelNetworkLogo(station, fallbackText);
   }
 

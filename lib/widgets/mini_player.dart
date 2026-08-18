@@ -225,16 +225,6 @@ class MiniPlayer extends StatelessWidget {
       ),
     );
 
-    if (station.logoAsset != null) {
-      return Image.asset(
-        station.logoAsset!,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildNetworkLogo(station, fallbackText);
-        },
-      );
-    }
-
     return _buildNetworkLogo(station, fallbackText);
   }
 

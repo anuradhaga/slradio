@@ -216,16 +216,6 @@ class _StationCardState extends State<StationCard> {
       ),
     );
 
-    if (station.logoAsset != null) {
-      return Image.asset(
-        station.logoAsset!,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildNetworkLogo(fallbackText);
-        },
-      );
-    }
-
     return _buildNetworkLogo(fallbackText);
   }
 
